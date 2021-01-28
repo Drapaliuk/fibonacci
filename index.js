@@ -7,39 +7,28 @@ class Fibonacci {
         if(amount === 0) throw new Error('Class Fibonacci can receive only number greater 0');
 
         this.sequence = this._create(amount);
-
-        this._savedDataFromConstructor.amount = amount;
-        this._savedDataFromConstructor.sequence = this.sequence;
+        this.amount = amount
     }
     
-    getRandomRangeSum(inputNumber = this._savedDataFromConstructor.amount) {
-        const fibonacciSequence = this._create(inputNumber);
-        const rangeEdges =  this._generateRangeEdges(inputNumber);
+    getRandomRangeSum() {
+        const fibonacciSequence = this._create(this.amount);
+        const rangeEdges =  this._generateRangeEdges(this.amount);
         const rangeNumbers = this._createNumberRange(fibonacciSequence, rangeEdges);
+
         return {
             fibonacciSequence,
             rangeEdges,
             rangeNumbers,
-            sum: this._sumOfNumbersRange(rangeNumbers)
+            sum: this._addRangeNumbers(rangeNumbers)
         }
     } 
 
-    sum(range = this._savedDataFromConstructor.sequence) {
-        return this._sumOfNumbersRange(range)
+    sum() {
+        return this._addRangeNumbers(this.sequence)
     }
 
-    _savedDataFromConstructor() {}
-
-    _create(inputNumber) {
-        const fibSequence = [0, 1];
-
-        for(let i = 0; i <= inputNumber; i++) {
-            if(fibSequence.length === inputNumber || inputNumber === 1) break;
-            const lastAddedNumber = fibSequence[fibSequence.length - 1]
-            const beforeLastAddedNumber = fibSequence[fibSequence.length - 2]
-            fibSequence.push(lastAddedNumber + beforeLastAddedNumber);
-        }
-        return fibSequence
+    _create(amount) {
+        return Fibonacci.getFibonacciSequence(amount)
     }
     
     _generateRangeEdges(edges) {
@@ -57,23 +46,27 @@ class Fibonacci {
         return arrCopy.splice(rangeStart, rangeEnd);
     }
     
-    _sumOfNumbersRange(rangeNumbers) {
+    _addRangeNumbers(rangeNumbers) {
         return rangeNumbers.reduce((acc, number) => acc += number)
     }
-    static create(inputNumber) {
-        if(typeof inputNumber !== 'number') {
-            const passedValueType = inputNumber === null ? null : inputNumber?.constructor.name
-            throw new Error(`Static method Fibonacci.create() can receive only number, you passed ${passedValueType}`)
-        }
 
+    static getFibonacciSequence(amount) {
         const fibSequence = [0, 1];
-        for(let i = 0; i <= inputNumber; i++) {
-            if(fibSequence.length === inputNumber) break;
+        for(let i = 0; i <= amount; i++) {
+            if(fibSequence.length === amount) break;
             const lastAddedNumber = fibSequence[fibSequence.length - 1]
             const beforeLastAddedNumber = fibSequence[fibSequence.length - 2]
             fibSequence.push(lastAddedNumber + beforeLastAddedNumber);
         }
         return fibSequence
+    }
+
+    static create(amount) {
+        if(typeof amount !== 'number') {
+            const passedValueType = amount === null ? null : amount?.constructor.name
+            throw new Error(`Static method Fibonacci.create() can receive only number, you passed ${passedValueType}`)
+        }
+        return Fibonacci.getFibonacciSequence(amount)
     }
 }
 
@@ -86,3 +79,4 @@ console.log('randomRangeSum', randomRangeSum)
 console.log('randomRangeSumFullInfo', randomRangeSumFullInfo)
 console.log('fibonacciSequenceSum', fibonacciSequenceSum)
 console.log('fibonacciSequence', fibonacciSequence)
+console.log(new Fibonacci(9))
