@@ -20,12 +20,12 @@ class Fibonacci {
             fibonacciSequence,
             rangeEdges,
             rangeNumbers,
-            sum: this._addRangeNumbers(rangeNumbers)
+            sum: this._sumOfNumbersRange(rangeNumbers)
         }
     } 
 
     sum(range = this._savedDataFromConstructor.sequence) {
-        return this._addRangeNumbers(range)
+        return this._sumOfNumbersRange(range)
     }
 
     _savedDataFromConstructor() {}
@@ -57,7 +57,7 @@ class Fibonacci {
         return arrCopy.splice(rangeStart, rangeEnd);
     }
     
-    _addRangeNumbers(rangeNumbers) {
+    _sumOfNumbersRange(rangeNumbers) {
         return rangeNumbers.reduce((acc, number) => acc += number)
     }
     static create(inputNumber) {
