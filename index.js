@@ -14,7 +14,6 @@ class Fibonacci {
         const fibonacciSequence = this._create(this._amount);
         const rangeEdges =  this._generateRangeEdges(this._amount);
         const rangeNumbers = this._createNumberRange(fibonacciSequence, rangeEdges);
-        console.log(rangeNumbers)
         return {
             fibonacciSequence,
             rangeEdges,
@@ -48,7 +47,6 @@ class Fibonacci {
     }
     
     _addRangeNumbers(rangeNumbers) {
-        console.log('rangeNumbers', rangeNumbers)
         return rangeNumbers.reduce((acc, number) => acc += number)
     }
 
@@ -78,15 +76,13 @@ const fibonacciSequenceSum = new Fibonacci(3).sum() // method for getting sum of
 const fibonacciSequence = Fibonacci.create(5) // this static method return just array with Fibonacci sequence
 const fibonacciInstance = new Fibonacci(10) // instance of Fibonacci class
 
-
 console.log('randomRangeSum', randomRangeSum)
 console.log('randomRangeSumFullInfo', randomRangeSumFullInfo)
 console.log('fibonacciSequenceSum', fibonacciSequenceSum)
 console.log('fibonacciSequence', fibonacciSequence)
 
 
-
-//! exception
+//! exceptions
 const invalidTypes = [true, '', {}, [], null, undefined, () => {}, 123456789n, Symbol()];
 const getRandomInvalidArgument = () => invalidTypes[Math.round(Math.random() * ((invalidTypes.length - 1) - 0) + 0)];
 
