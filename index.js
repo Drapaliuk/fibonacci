@@ -6,15 +6,15 @@ class Fibonacci {
         }
         if(amount === 0) throw new Error('Class Fibonacci can receive only number greater 0');
 
-        this.sequence = this._create(amount);
-        this.amount = amount
+        this.sequence = this._create(Math.round(amount));
+        this._amount = Math.round(amount);
     }
     
     getRandomRangeSum() {
-        const fibonacciSequence = this._create(this.amount);
-        const rangeEdges =  this._generateRangeEdges(this.amount);
+        const fibonacciSequence = this._create(this._amount);
+        const rangeEdges =  this._generateRangeEdges(this._amount);
         const rangeNumbers = this._createNumberRange(fibonacciSequence, rangeEdges);
-
+        console.log(rangeNumbers)
         return {
             fibonacciSequence,
             rangeEdges,
@@ -31,22 +31,24 @@ class Fibonacci {
         return Fibonacci.getFibonacciSequence(amount)
     }
     
-    _generateRangeEdges(edges) {
-        const firstRandomNumber = Math.round(Math.random() * ((edges - 1) - 0) + 0);
-        const secondRandomNumber = Math.round(Math.random() * ((edges - 1) - 0) + 0);
+    _generateRangeEdges(upperEdge) {
+        const firstRandomNumber = Math.round(Math.random() * ((upperEdge - 0) - 0) + 0);
+        const secondRandomNumber = Math.round(Math.random() * ((upperEdge - 0) - 0) + 0);
         return [firstRandomNumber, secondRandomNumber].sort((a, b) => a - b)
     }
     
     _createNumberRange(arr, rangeEdges) {
         const arrCopy = [...arr]
         const [rangeStart, rangeEnd] = rangeEdges;
-        if(rangeStart === rangeEnd) {
+        if(rangeStart === rangeEnd + 1) {
             return [arrCopy[rangeStart]]
         }
-        return arrCopy.splice(rangeStart, rangeEnd);
+        const result = arrCopy.slice(rangeStart, rangeEnd + 1);
+        return result
     }
     
     _addRangeNumbers(rangeNumbers) {
+        console.log('rangeNumbers', rangeNumbers)
         return rangeNumbers.reduce((acc, number) => acc += number)
     }
 
@@ -70,13 +72,32 @@ class Fibonacci {
     }
 }
 
-const randomRangeSum = new Fibonacci(6).getRandomRangeSum().sum
-const randomRangeSumFullInfo = new Fibonacci(10).getRandomRangeSum()
-const fibonacciSequenceSum = new Fibonacci(3).sum()
-const fibonacciSequence = Fibonacci.create(5)
+const randomRangeSum = new Fibonacci(2.4).getRandomRangeSum().sum //! this field is solution of my task
+const randomRangeSumFullInfo = new Fibonacci(4.6).getRandomRangeSum() // return object with extra fields for more informativeness  
+const fibonacciSequenceSum = new Fibonacci(3).sum() // method for getting sum of Fibonacci sequence
+const fibonacciSequence = Fibonacci.create(5) // this static method return just array with Fibonacci sequence
+const fibonacciInstance = new Fibonacci(10) // instance of Fibonacci class
+
 
 console.log('randomRangeSum', randomRangeSum)
 console.log('randomRangeSumFullInfo', randomRangeSumFullInfo)
 console.log('fibonacciSequenceSum', fibonacciSequenceSum)
 console.log('fibonacciSequence', fibonacciSequence)
-console.log(new Fibonacci(9))
+
+
+
+//! exception
+const invalidTypes = [true, '', {}, [], null, undefined, () => {}, 123456789n, Symbol()];
+const getRandomInvalidArgument = () => invalidTypes[Math.round(Math.random() * ((invalidTypes.length - 1) - 0) + 0)];
+
+try {
+    new Fibonacci(getRandomInvalidArgument())
+} catch (error) {
+    console.error(error)
+}
+
+try {
+    Fibonacci.create(getRandomInvalidArgument())
+} catch (error) {
+    console.error(error)
+}
