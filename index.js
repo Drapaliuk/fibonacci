@@ -47,7 +47,9 @@ class Fibonacci {
     }
     
     _addRangeNumbers(rangeNumbers) {
-        return rangeNumbers.reduce((acc, number) => acc += number)
+        return rangeNumbers.reduce((acc, number) => {
+            return acc += number
+        }, 0)
     }
 
     static getFibonacciSequence(amount) {
@@ -70,8 +72,8 @@ class Fibonacci {
     }
 }
 
-const randomRangeSum = new Fibonacci(2.4).getRandomRangeSum().sum //! this field is solution of my task
-const randomRangeSumFullInfo = new Fibonacci(4.6).getRandomRangeSum() // return object with extra fields for more informativeness  
+const randomRangeSum = new Fibonacci(5).getRandomRangeSum().sum //! this field is solution of my task
+const randomRangeSumFullInfo = new Fibonacci(7).getRandomRangeSum() // return object with extra fields for more informativeness  
 const fibonacciSequenceSum = new Fibonacci(3).sum() // method for getting sum of Fibonacci sequence
 const fibonacciSequence = Fibonacci.create(5) // this static method return just array with Fibonacci sequence
 const fibonacciInstance = new Fibonacci(10) // instance of Fibonacci class
